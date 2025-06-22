@@ -22,7 +22,7 @@ SELECT
   CAST(id_branch AS INT64) AS branch_id --PK
   , branch_name
   , DATE(TIMESTAMP(date_update), "Europe/Prague") AS branch_update_date -- totožný s product_status_update_date v tabulce 'status'?
-FROM `united-skyline-463312-b6.L0_google_sheet.branch`
+FROM `united-skyline-463312-b6.L0_google_sheets.branch`
 WHERE id_branch IS NOT NULL
   AND id_branch != 'NULL'
   AND branch_name IS NOT NULL
@@ -39,7 +39,7 @@ SELECT
   , category AS product_category
   , is_vat_applicable AS product_is_vat_applicable
   , DATE(TIMESTAMP(date_update), "Europe/Prague") AS product_update_date
-FROM `united-skyline-463312-b6.L0_google_sheet.product`
+FROM `united-skyline-463312-b6.L0_google_sheets.product`
 WHERE id_product IS NOT NULL
 QUALIFY ROW_NUMBER() OVER (PARTITION BY id_product ORDER BY date_update DESC) = 1
 ;
