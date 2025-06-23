@@ -55,7 +55,7 @@ SELECT
   ,GREATEST(amount_w_vat,0) AS amount_w_vat
   ,return_w_vat
   -- dopočítáme amount without VAT (VAT = 20 %)
-  ,amount_w_vat / 1.2 AS amount_wo_vat
+  ,(amount_w_vat / 1.2) AS amount_wo_vat
   -- pořadí faktur na úrovni kontraktu podle data vydání
   ,ROW_NUMBER() OVER(PARTITION BY contract_id ORDER BY issue_date) AS invoice_order
 FROM `united-skyline-463312-b6.L1.L1_invoice`
@@ -92,12 +92,12 @@ SELECT
   ,product_name
   ,product_type
   ,product_category
-  -- unit k prodebatování se zákazníkem v rámci L3
+  -- využití unit k prodebatování se zákazníkem v rámci L3
   ,unit
   -- zbavíme se záporných hodnot
   ,GREATEST(price_wo_vat,0) AS price_wo_vat
   -- dopočítáváme VAT
-  ,price_wo_vat * 1.2 AS price_w_vat
+  ,(price_wo_vat * 1.2) AS price_w_vat
   -- přidáme příznak pro unlimited product
   ,IF(product_valid_from = DATE '2035-12-31',TRUE,FALSE) AS flag_unlimited_product
 FROM `united-skyline-463312-b6.L1.L1_product_purchase`
